@@ -1,0 +1,89 @@
+#app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.team-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.club-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 30%;
+}
+
+.rank {
+    font-weight: bold;
+    width: 2rem;
+    text-align: center;
+}
+
+.logo {
+    width: 2rem;
+    height: 2rem;
+}
+
+.team-name {
+    font-size: 1rem;
+    color: #333;
+}
+
+.points-info {
+    display: flex;
+    justify-content: space-around;
+    width: 40%;
+}
+
+.points-info p {
+    margin: 0;
+    text-align: center;
+    width: 3rem;
+}
+
+.recent-results {
+    display: flex;
+    gap: 0.5rem;
+    width: 20%;
+    justify-content: flex-end;
+}
+
+.result-letter {
+    border-radius:50%;
+    width:10px;
+    height:10px;
+    position: relative;
+}
+
+.red{
+    background-color: red;
+}
+
+.grey{
+    background-color: grey;
+}
+
+.green{
+    background-color: green;
+}
+
+.latch{
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    display: none;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+.result-letter:hover .latch{
+    display: block;
+}

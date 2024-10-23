@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Hello ReactController!
+{% endblock %}
+
+{% block body %}
+    <h1>Classement de la Ligue 1</h1>
+    <div id="app">
+        <h2>Équipes</h2>
+        <div>
+            {% for team in teams.standings %}
+                <div {{ react_component('Team', {'team': team}) }}></div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
