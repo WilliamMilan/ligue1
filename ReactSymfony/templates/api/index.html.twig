@@ -9,7 +9,7 @@
         <h2>Équipes</h2>
         <div>
             {% for team in teams.standings %}
-                <div {{ react_component('Team', {'team': team}) }}></div>
+                <div {{ react_component('Team', {'team': team, 'allTeams': teams}) }}></div>
             {% endfor %}
         </div>
     </div>

@@ -3,19 +3,25 @@ import React from 'react';
 export default function TeamCard(props) {
 
     function prestationMatches(result){
-        // const teamm = props.team.clubIdentity.name
-        // const teamAgainstId = result.opponentClubId
+        const teamm = props.team.clubIdentity.name
+        const teamAgainstId = result.opponentClubId
+        let teamAgainst = ""
 
-        console.log(props.team)
-        
-        // for(const key in props.team){
-        //     const lid = props[key]
-        //     if(lid.clubId === teamAgainstId){
-        //         console.log(lid.clubIdentity.name)
-        //     }
-        // }
+        let index = 1
+        for(const _ in props.allTeams.standings){
+            const id = props.allTeams.standings[index].clubId;
+            if(id === teamAgainstId){
+                teamAgainst = props.allTeams.standings[index].clubIdentity.name;
+                break;
+            }
+            index++
+        }
 
-        return <div className="latch">{result.score.home} - {result.score.away}</div>
+        if(result.side === "home"){
+            return <div className="latch">{teamm} {result.score.home} - {result.score.away} {teamAgainst} </div>
+        }else{
+            return <div className="latch">{teamAgainst} {result.score.home} - {result.score.away} {teamm} </div>
+        }
     }
 
     function results(result, index) {
@@ -41,7 +47,7 @@ export default function TeamCard(props) {
             </div>
             <div className="points-info">
                 <p className="played text-gray-500">{props.team.played}</p>
-                <p className="points text-gray-500">{props.team.points}</p>
+                <p className="points text-gray-500"><strong>{props.team.points}</strong></p>
                 <p className="wins text-gray-500">{props.team.wins}</p>
                 <p className="draws text-gray-500">{props.team.draws}</p>
                 <p className="losses text-gray-500">{props.team.losses}</p>
