@@ -1,3 +1,24 @@
+#clubs{
+    width: 50rem;
+}
+
+
+#barTop{
+    display: flex;
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+}
+
+
+
+
+
+
+
+
+
+
+
 #app {
     display: flex;
     flex-direction: column;
@@ -7,9 +28,9 @@
 
 .team-card {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
-    width: 100%;
+    width: auto;
     padding: 1rem;
     border-bottom: 1px solid #ddd;
 }
@@ -18,7 +39,7 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    width: 30%;
+    width: 40%;
 }
 
 .rank {
@@ -51,16 +72,16 @@
 
 .recent-results {
     display: flex;
-    gap: 0.5rem;
+    justify-content: center;
     width: 20%;
-    justify-content: flex-end;
+    gap: 0.5rem;
 }
 
 .result-letter {
-    border-radius:50%;
-    width:10px;
-    height:10px;
-    position: relative;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: relative
 }
 
 .red{
@@ -75,12 +96,12 @@
     background-color: green;
 }
 
-.latch{
+.latch {
     position: absolute;
     top: -25px;
     left: 50%;
-    display: none;
     transform: translateX(-50%);
+    display: none;
     white-space: nowrap;
 }
 

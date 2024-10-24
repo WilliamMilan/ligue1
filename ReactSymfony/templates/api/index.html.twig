@@ -7,10 +7,26 @@
     <h1>Classement de la Ligue 1</h1>
     <div id="app">
         <h2>Équipes</h2>
-        <div>
-            {% for team in teams.standings %}
-                <div {{ react_component('Team', {'team': team, 'allTeams': teams}) }}></div>
-            {% endfor %}
+        <div id="classement">
+            <div id="barTop">
+                <div class="club-info">
+                    <div class="rank">#</div>
+                    Clubs
+                </div>
+                <div class="points-info">
+                    <p>J</p>
+                    <p>pts</p>
+                    <p>G</p>
+                    <p>N</p>
+                    <p>P</p>
+                </div>
+                <div class="recent-results"></div>
+            </div>
+            <div id="clubs">
+                {% for team in teams.standings %}
+                    <div {{ react_component('Team', {'team': team, 'allTeams': teams}) }}></div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}
