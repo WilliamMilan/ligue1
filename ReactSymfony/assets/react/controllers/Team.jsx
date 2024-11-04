@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function TeamCard(props) {
+export default function Team(props) {
 
     function prestationMatches(result){
         const teamm = props.team.clubIdentity.officialName
@@ -53,6 +53,10 @@ export default function TeamCard(props) {
                 <p className="wins text-gray-500">{props.team.wins}</p>
                 <p className="draws text-gray-500">{props.team.draws}</p>
                 <p className="losses text-gray-500">{props.team.losses}</p>
+                <p className="goal-difference text-gray-500">{props.team.goalsDifference}</p>
+                <p className="goal-for text-gray-500">{props.team.forGoals}</p>
+                <p className="goal-against text-gray-500">{props.team.againstGoals}</p>
+                
             </div>
             <div className="recent-results">
                 {props.team.seasonResults.slice(-5).map((result, index) => (

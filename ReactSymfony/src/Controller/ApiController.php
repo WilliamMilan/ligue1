@@ -21,10 +21,12 @@ class ApiController extends AbstractController
     public function index(): Response
     {
         $teams = $this->leagueService->getTeams();
+        $journees = $this->leagueService->getJourney(9);
 
         return $this->render('api/index.html.twig', [
             'controller_name' => 'ApiController',
-            'teams' => $teams
+            'teams' => $teams,
+            'journees' => $journees
         ]);
     }
 }

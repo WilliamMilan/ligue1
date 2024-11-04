@@ -5,22 +5,34 @@
 
 {% block body %}
     <h1>Classement de la Ligue 1</h1>
+
+    <div class="journées">
+        {% for match in journees.matches %}
+            <div {{ react_component('Matches', {'match': match}) }}></div>
+        {% endfor %}
+    </div>
+
     <div id="app">
         <h2>Équipes</h2>
         <div id="classement">
             <div id="barTop">
-                <div class="club-info">
+                <div class="club-info top-bar">
                     <div class="rank">#</div>
                     Clubs
                 </div>
-                <div class="points-info">
+                <div class="points-info top-bar">
                     <p>J</p>
                     <p>pts</p>
                     <p>G</p>
                     <p>N</p>
                     <p>P</p>
+                    <p>Diff</p>
+                    <p>But +</p>
+                    <p>But -</p>
                 </div>
-                <div class="recent-results"></div>
+                <div class="recent-results top-bar">
+                    <p>Forme</p>
+                </div>
             </div>
             <div id="clubs">
                 {% for team in teams.standings %}
