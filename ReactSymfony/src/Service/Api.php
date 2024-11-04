@@ -13,16 +13,16 @@ class Api
         $this->client = $client;
     }
 
-    public function getTeams()
+    public function getTeams(int $championnat)
     {
-        $urli = "https://ma-api.ligue1.fr/championship-standings/1/general";
+        $urli = "https://ma-api.ligue1.fr/championship-standings/" . $championnat . "/general";
         $response = $this->client->get($urli);
         return json_decode($response->getBody(), true);
     }
 
-    public function getJourney(int $nb)
+    public function getCurrentJournee(int $championnat)
     {
-        $urli = "https://ma-api.ligue1.fr/championship-matches/championship/1/game-week/" . $nb;
+        $urli = "https://ma-api.ligue1.fr/championship-matches/championship/" . $championnat . "/current";
         $response = $this->client->get($urli);
         return json_decode($response->getBody(), true);
     }

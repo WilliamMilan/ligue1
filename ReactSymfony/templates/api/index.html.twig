@@ -1,13 +1,20 @@
-{% extends 'base.html.twig' %}
+{% extends 'menu.html.twig' %}
 
 {% block title %} Hello ReactController!
 {% endblock %}
 
 {% block body %}
+
+    <a href="/api/1">Ligue 1</a>
+    <a href="/api/4">Ligue 2</a>
+    <a href="/api/6">Champions League</a>
+    <a href="/api/13">Europa League</a>
+    <a href="/api/14">Europa Conference League</a>
+
     <h1>Classement de la Ligue 1</h1>
 
     <div class="journées">
-        {% for match in journees.matches %}
+        {% for match in journees.currentMatches %}
             <div {{ react_component('Matches', {'match': match}) }}></div>
         {% endfor %}
     </div>

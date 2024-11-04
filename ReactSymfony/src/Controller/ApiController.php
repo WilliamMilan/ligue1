@@ -9,7 +9,6 @@ use App\Service\Api;
 
 class ApiController extends AbstractController
 {
-
     private $leagueService;
 
     public function __construct(Api $leagueService)
@@ -17,11 +16,11 @@ class ApiController extends AbstractController
         $this->leagueService = $leagueService;
     }
 
-    #[Route('/api', name: 'app_api')]
-    public function index(): Response
+    #[Route('/api/{championnat}', name: 'app_api')]
+    public function index(string $championnat): Response
     {
-        $teams = $this->leagueService->getTeams();
-        $journees = $this->leagueService->getJourney(9);
+        $teams = $this->leagueService->getTeams($championnat);
+        $journees = $this->leagueService->getCurrentJournee($championnat);
 
         return $this->render('api/index.html.twig', [
             'controller_name' => 'ApiController',
