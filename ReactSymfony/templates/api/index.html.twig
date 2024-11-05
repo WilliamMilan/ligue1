@@ -11,7 +11,7 @@
     <a href="/api/13">Europa League</a>
     <a href="/api/14">Europa Conference League</a>
 
-    <h1>Classement de la Ligue 1</h1>
+    <h1>Classement de la Champions League (J{{ weekNumber }})</h1>
 
     <div class="journées">
         {% for match in journees.currentMatches %}
@@ -43,7 +43,7 @@
             </div>
             <div id="clubs">
                 {% for team in teams.standings %}
-                    <div {{ react_component('Team', {'team': team, 'allTeams': teams}) }}></div>
+                    <div {{ react_component('Team', {'team': team, 'allTeams': teams, 'previous': previousClassement}) }}></div>
                 {% endfor %}
             </div>
         </div>

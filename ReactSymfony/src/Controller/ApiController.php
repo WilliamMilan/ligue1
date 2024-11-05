@@ -21,11 +21,15 @@ class ApiController extends AbstractController
     {
         $teams = $this->leagueService->getTeams($championnat);
         $journees = $this->leagueService->getCurrentJournee($championnat);
+        $gameWeekNumber = $journees['currentMatches'][0]['gameWeekNumber'];
+        $previousClassement = $this->leagueService->getPreviousMatchdayStandings($championnat, $gameWeekNumber-1);
 
         return $this->render('api/index.html.twig', [
             'controller_name' => 'ApiController',
             'teams' => $teams,
-            'journees' => $journees
+            'journees' => $journees,
+            'weekNumber' => $gameWeekNumber,
+            'previousClassement' => $previousClassement['standings']
         ]);
     }
 }

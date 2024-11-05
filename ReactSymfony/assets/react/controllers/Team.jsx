@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export default function Team(props) {
 
@@ -36,8 +36,33 @@ export default function Team(props) {
         }
     }
 
+    function tomate(){
+        let before = []
+        let after = []
+        for(let t in props.previous){
+            before.push(props.previous[t].clubIdentity.name)
+        }
+        for(let t in props.allTeams.standings){
+            after.push(props.allTeams.standings[t].clubIdentity.name)
+        }
+
+        const equipe = props.team.clubIdentity.name
+        const placesPrises = before.indexOf(equipe) - after.indexOf(equipe)
+
+        if(placesPrises > 0){
+            return <div className="plus">{placesPrises}</div>
+        }else if (placesPrises < 0){
+            return <div className="moins">{Math.abs(placesPrises)}</div>
+        }else{
+            return "-"
+        }
+    }
+
     return (
         <div className="team-card">
+            <div className="evolution">
+                <div>{tomate()}</div>
+            </div>
             <div className="club-info">
                 <div className="rank">{props.team.rank}</div>
                 <img

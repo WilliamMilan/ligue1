@@ -123,11 +123,26 @@
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    background-color: #bbb9b9;
     padding: 15px;
     border-radius: 10px;
 }
 
 .journées{
     flex-wrap: wrap;
+}
+
+.plus{
+    width: 0;
+    height: 0;
+    border-left: 0.5rem solid transparent;
+    border-right: 0.5rem solid transparent;
+    border-bottom: 0.5rem solid green;
+}
+
+.moins{
+    width: 0;
+    height: 0;
+    border-left: 0.5rem solid transparent;
+    border-right: 0.5rem solid transparent;
+    border-top: 0.5rem solid red;
 }
