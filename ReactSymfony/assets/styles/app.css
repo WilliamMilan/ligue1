@@ -2,12 +2,32 @@
     width: 50rem;
 }
 
-
 #barTop{
     display: flex;
     padding: 0.2rem;
     border-bottom: 1px solid #ddd;
     align-items: stretch;
+}
+
+.different-championnats {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+}
+
+.different-championnats a {
+    display: inline-block;
+    padding: 5px;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.different-championnats img {
+    width: 80px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: grey;
 }
 
 .top-bar{
@@ -26,12 +46,32 @@
 }
 
 .team-card {
+    height: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: auto;
     padding: 0.2rem;
     border-bottom: 1px solid #ddd;
+}
+
+.border-bottom-team-blue{
+    border-left: 3px solid blue;
+}
+.border-bottom-team-orangered{
+    border-left: 3px solid orangered;
+}
+.border-bottom-team-green{
+    border-left: 3px solid green;
+}
+.border-bottom-team-cyan{
+    border-left: 3px solid cyan;
+}
+.border-bottom-team-orange{
+    border-left: 3px solid orange;
+}
+.border-bottom-team-red{
+    border-left: 3px solid red;
 }
 
 .club-info {
@@ -54,7 +94,6 @@
 
 .team-name {
     font-size: 1rem;
-    color: #333;
 }
 
 .points-info {
@@ -108,27 +147,53 @@
     display: block;
 }
 
-.journées{
+.journées {
     display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 4.3rem;
+    padding: 20px 0;
 }
 
-.reed{
-    color: red;
-}
-
-.match{
+.match {
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    padding: 15px;
+    padding: 10px;
     border-radius: 10px;
+    background-color: #c0bcbc;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.journées{
-    flex-wrap: wrap;
+.match img.logo {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.match.reed {
+    color: red;
+}
+
+.match .logo {
+    display: inline-block;
+    width: 30px;
+    height: auto;
+}
+
+.match:hover {
+    background-color: #f0f0f0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.evolution{
+    height: 100%;
+    width: 4%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.1rem;
 }
 
 .plus{
@@ -145,4 +210,12 @@
     border-left: 0.5rem solid transparent;
     border-right: 0.5rem solid transparent;
     border-top: 0.5rem solid red;
+}
+
+.places_prises{
+    font-size: 12px;
+}
+
+.titre{
+    text-align: center;
 }

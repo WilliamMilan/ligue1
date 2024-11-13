@@ -5,24 +5,20 @@
 
 {% block body %}
 
-    <a href="/api/1">Ligue 1</a>
-    <a href="/api/4">Ligue 2</a>
-    <a href="/api/6">Champions League</a>
-    <a href="/api/13">Europa League</a>
-    <a href="/api/14">Europa Conference League</a>
-
-    <h1>Classement de la Champions League (J{{ weekNumber }})</h1>
-
-    <div class="journées">
-        {% for match in journees.currentMatches %}
-            <div {{ react_component('Matches', {'match': match}) }}></div>
-        {% endfor %}
+    <div class="different-championnats">
+        <a href="/api/1"><img src="https://ligue1.fr/images/Logo_Ligue_1.png" alt="Ligue 1"></a>
+        <a href="/api/4"><img src="https://ligue1.fr/images/Logo_Ligue_2.png" alt="Ligue 2"></a>
+        <a href="/api/6"><img src="https://ligue1.fr/images/Logo_champions_league.png" alt="Champions League"></a>
+        <a href="/api/13"><img src="https://ligue1.fr/images/Logo_europa_league.png" alt="Europa League"></a>
     </div>
+
+    <h1 class="titre">Classement de la Champions League (J{{ weekNumber }})</h1>
 
     <div id="app">
         <h2>Équipes</h2>
         <div id="classement">
             <div id="barTop">
+                <div class="evolution"><p>-</p></div>
                 <div class="club-info top-bar">
                     <div class="rank">#</div>
                     Clubs
@@ -43,7 +39,7 @@
             </div>
             <div id="clubs">
                 {% for team in teams.standings %}
-                    <div {{ react_component('Team', {'team': team, 'allTeams': teams, 'previous': previousClassement}) }}></div>
+                    <div {{ react_component('Team', {'team': team, 'allTeams': teams, 'previous': previousClassement, 'idChampionnat': idChampionnat}) }}></div>
                 {% endfor %}
             </div>
         </div>

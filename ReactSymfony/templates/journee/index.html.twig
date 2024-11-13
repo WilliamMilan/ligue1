@@ -1,0 +1,14 @@
+{% extends 'menu.html.twig' %}
+
+{% block title %} Hello ReactController!
+{% endblock %}
+
+{% block body %}
+
+    <div class="journées">
+        {% for match in journees.currentMatches %}
+            <div {{ react_component('Matches', {'match': match}) }}></div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

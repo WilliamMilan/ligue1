@@ -1,0 +1,52 @@
+#navbar {
+    background-color: #1a1a1a; /* Couleur de fond du header */
+    color: #fff;
+    padding: 1rem 0;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Ombre sous le header */
+    position: sticky; /* Fixer le header en haut de la page */
+    top: 0;
+    z-index: 10;
+}
+
+#navbar .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+#navbar .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffd700; /* Couleur or pour la distinction */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+#navbar .logo:hover {
+    color: #ffa500; /* Légère variation pour effet au survol */
+}
+
+#navbar .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    margin: 0;
+}
+
+#navbar .nav-links li {
+    display: inline;
+}
+
+#navbar .nav-links a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+#navbar .nav-links a:hover {
+    color: #ffa500; /* Couleur de survol */
+}
