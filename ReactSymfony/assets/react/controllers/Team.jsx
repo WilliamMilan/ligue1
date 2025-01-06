@@ -1,52 +1,89 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from "react";
+import React from 'react';
 
 export default function Team(props) {
 
-    function prestationMatches(result) {
-        const teamm = props.team.clubIdentity.officialName
-        const teamAgainstId = result.opponentClubId
-        let teamAgainst = ""
+    const [classement, setClassement] = useState([])
+    const [classementBefore, setClassementBefore] = useState([])
 
-        let index = 1
-        for (const _ in props.allTeams.standings) {
-            const id = props.allTeams.standings[index].clubId;
-            if (id === teamAgainstId) {
-                teamAgainst = props.allTeams.standings[index].clubIdentity.officialName;
-                break;
+    useEffect(() => {
+        const fetchClassement = async () => {
+            try {
+                const journeeBefore = props.gameweek - 1
+
+                const response = await fetch("https://ma-api.ligue1.fr/championship-standings/" + props.idChampionnat + "/general");
+                const response2 = await fetch("https://ma-api.ligue1.fr/championship-standings/" + props.idChampionnat + "/general?season=2024&firstGameWeekNumber=1&lastGameWeekNumber=" + journeeBefore);
+
+                const data = await response.json();
+                const data2 = await response2.json();
+
+                setClassement(data);
+                setClassementBefore(data2);
+            } catch (error) {
+                console.error("Failed to fetch classement:", error);
             }
-            index++
-        }
+        };
 
-        if (result.side === "home") {
-            let sc = teamm + " " + result.score.home + "-" + result.score.away + " " + teamAgainst
+        fetchClassement();
+    }, [props.idChampionnat, props.gameweek]);
+
+    function prestationMatches(result, team) {
+        const teamm = team["clubIdentity"]["officialName"]
+        const teamAgainstId = result["opponentClubId"]
+        let teamAgainst = ""
+        let index = 1
+
+        Object.keys(classement.standings).map(key => {
+            const club = classement.standings[key];
+            if (club["clubId"] === teamAgainstId) {
+                teamAgainst = classement.standings[index].clubIdentity.officialName;
+                return true
+            }
+            index++;
+        });
+
+        if (result["side"] === "home") {
+            let sc = teamm + " " + result["score"]["home"] + "-" + result["score"]["away"] + " " + teamAgainst
             return <div className="latch"><strong>{sc}</strong></div>
         } else {
-            let sc = teamAgainst + " " + result.score.home + "-" + result.score.away + " " + teamm
+            let sc = teamAgainst + " " + result["score"]["home"] + "-" + result["score"]["away"] + " " + teamm
             return <div className="latch"><strong>{sc}</strong></div>
         }
     }
 
-    function results(result, index) {
-        if (result.resultLetter === 'w') {
-            return <div key={index} className="result-letter green">{prestationMatches(result)}</div>;
-        } else if (result.resultLetter === 'd') {
-            return <div key={index} className="result-letter grey">{prestationMatches(result)}</div>;
+    function results(result, index, team) {
+        if (result["resultLetter"] === 'w') {
+            return <div key={index} className="result-letter green">{prestationMatches(result, team)}</div>;
+        } else if (result["resultLetter"] === 'd') {
+            return <div key={index} className="result-letter grey">{prestationMatches(result, team)}</div>;
         } else {
-            return <div key={index} className="result-letter red">{prestationMatches(result)}</div>;
+            return <div key={index} className="result-letter red">{prestationMatches(result, team)}</div>;
         }
     }
 
-    function tomate() {
+    function tomate(team) {
         let before = []
         let after = []
-        for (let t in props.previous) {
-            before.push(props.previous[t].clubIdentity.name)
-        }
-        for (let t in props.allTeams.standings) {
-            after.push(props.allTeams.standings[t].clubIdentity.name)
+
+        if (classementBefore.standings) {
+            Object.keys(classementBefore.standings).map(key => {
+                const club = classementBefore.standings[key];
+                before.push(club["clubIdentity"]["name"])
+            });
+        } else {
+            console.log("chais pas frr");
         }
 
-        const equipe = props.team.clubIdentity.name
+        if (classement.standings) {
+            Object.keys(classement.standings).map(key => {
+                const club = classement.standings[key];
+                after.push(club["clubIdentity"]["name"])
+            });
+        } else {
+            console.log("chais pas frr");
+        }
+
+        const equipe = team["clubIdentity"]["name"]
         const placesPrises = before.indexOf(equipe) - after.indexOf(equipe)
 
         if (placesPrises > 0) {
@@ -58,35 +95,35 @@ export default function Team(props) {
         }
     }
 
-    function divisionQualification() {
+    function divisionQualification(team) {
         if (props.idChampionnat == 6 || props.idChampionnat == 13) {
-            if (props.team.rank <= 8) {
+            if (team["rank"] <= 8) {
                 return 'border-bottom-team-blue';
-            } else if (props.team.rank > 8 && props.team.rank <= 24) {
+            } else if (team["rank"] > 8 && team["rank"] <= 24) {
                 return 'border-bottom-team-orangered';
             }
         } else if (props.idChampionnat == 1) {
-            if (props.team.rank <= 3) {
+            if (team["rank"] <= 3) {
                 return 'border-bottom-team-blue';
-            } else if (props.team.rank == 4) {
+            } else if (team["rank"] == 4) {
                 return 'border-bottom-team-orangered';
-            } else if (props.team.rank == 5) {
+            } else if (team["rank"] == 5) {
                 return 'border-bottom-team-green';
-            } else if (props.team.rank == 6) {
+            } else if (team["rank"] == 6) {
                 return 'border-bottom-team-cyan';
-            } else if (props.team.rank == 16) {
+            } else if (team["rank"] == 16) {
                 return 'border-bottom-team-orange';
-            } else if (props.team.rank >= 17) {
+            } else if (team["rank"] >= 17) {
                 return 'border-bottom-team-red';
             }
         } else if (props.idChampionnat == 4) {
-            if (props.team.rank <= 2) {
+            if (team["rank"] <= 2) {
                 return 'border-bottom-team-blue';
-            } else if (props.team.rank > 2 && props.team.rank <= 5) {
+            } else if (team["rank"] > 2 && team["rank"] <= 5) {
                 return 'border-bottom-team-green';
-            } else if (props.team.rank == 16) {
+            } else if (team["rank"] == 16) {
                 return 'border-bottom-team-orange';
-            } else if (props.team.rank >= 17) {
+            } else if (team["rank"] >= 17) {
                 return 'border-bottom-team-red';
             }
         } else {
@@ -94,36 +131,48 @@ export default function Team(props) {
         }
     }
 
-    return (
-        <div className={`team-card ${divisionQualification()}`}>
-            <div className="evolution">
-                {tomate()}
-            </div>
-            <div className="club-info">
-                <div className="rank">{props.team.rank}</div>
-                <img
-                    className="logo"
-                    src={props.team.clubIdentity.assets.logo.small}
-                    alt={`${props.team.clubIdentity.name} logo`}
-                />
-                <strong className="team-name">{props.team.clubIdentity.officialName}</strong>
-            </div>
-            <div className="points-info">
-                <p className="played text-gray-500">{props.team.played}</p>
-                <p className="points text-gray-500"><strong>{props.team.points}</strong></p>
-                <p className="wins text-gray-500">{props.team.wins}</p>
-                <p className="draws text-gray-500">{props.team.draws}</p>
-                <p className="losses text-gray-500">{props.team.losses}</p>
-                <p className="goal-difference text-gray-500">{props.team.goalsDifference}</p>
-                <p className="goal-for text-gray-500">{props.team.forGoals}</p>
-                <p className="goal-against text-gray-500">{props.team.againstGoals}</p>
+    function showTeams() {
+        if (classement.standings) {
+            return Object.keys(classement.standings).map(key => {
+                const club = classement.standings[key];
+                return (
+                    <div key={club.clubId} className={`team-card ${divisionQualification(club)}`}>
+                        <div className="evolution">
+                            {tomate(club)}
+                        </div>
+                        <div className="club-info">
+                            <div className="rank">{club["rank"]}</div>
+                            <img
+                                className="logo"
+                                src={club["clubIdentity"]["assets"]["logo"]["small"]}
+                                alt={`${club["clubIdentity"]["name"]} logo`}
+                            />
+                            <strong className="team-name">{club["clubIdentity"]["officialName"]}</strong>
+                        </div>
+                        <div className="points-info">
+                            <p className="played text-gray-500">{club["played"]}</p>
+                            <p className="points text-gray-500"><strong>{club["points"]}</strong></p>
+                            <p className="wins text-gray-500">{club["wins"]}</p>
+                            <p className="draws text-gray-500">{club["draws"]}</p>
+                            <p className="losses text-gray-500">{club["losses"]}</p>
+                            <p className="goal-difference text-gray-500">{club["goalsDifference"]}</p>
+                            <p className="goal-for text-gray-500">{club["forGoals"]}</p>
+                            <p className="goal-against text-gray-500">{club["againstGoals"]}</p>
+                        </div>
+                        <div className="recent-results">
+                            {club["seasonResults"].slice(-5).map((result, index) => (
+                                results(result, index, club)
+                            ))}
+                        </div>
+                    </div>
+                );
+            });
+        }
+    }
 
-            </div>
-            <div className="recent-results">
-                {props.team.seasonResults.slice(-5).map((result, index) => (
-                    results(result, index)
-                ))}
-            </div>
+    return (
+        <div className="allClubs">
+            {showTeams()}
         </div>
     );
 }

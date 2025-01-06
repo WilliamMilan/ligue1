@@ -24,7 +24,8 @@ class Api
     {
         $urli = "https://ma-api.ligue1.fr/championship-matches/championship/" . $championnat . "/current";
         $response = $this->client->get($urli);
-        return json_decode($response->getBody(), true);
+        $data = json_decode($response->getBody()->getContents(), true);
+        return $data['currentMatches'][0]['gameWeekNumber'];
     }
 
     public function getPreviousMatchdayStandings(int $championnat, int $matchday)

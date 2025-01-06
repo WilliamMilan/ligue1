@@ -1,0 +1,32 @@
+{% extends 'menu.html.twig' %}
+
+{% block title %} Hello ReactController!
+{% endblock %}
+
+{% block body %}
+
+    <div class="different-championnats">
+        <a href="{{ path('app_journee_actual', {'championnat': 1})}}"><img src="https://ligue1.fr/images/Logo_Ligue_1.png" alt="Ligue 1"></a>
+        <a href="{{ path('app_journee_actual', {'championnat': 4})}}"><img src="https://ligue1.fr/images/Logo_Ligue_2.png" alt="Ligue 2"></a>
+        <a href="{{ path('app_journee_actual', {'championnat': 6})}}"><img src="https://ligue1.fr/images/Logo_champions_league.png" alt="Champions League"></a>
+        <a href="{{ path('app_journee_actual', {'championnat': 13})}}"><img src="https://ligue1.fr/images/Logo_europa_league.png" alt="Europa League"></a>
+    </div>
+
+    (J{{ gameweek }})
+
+    {% if gameweek > 0 and gameweek < 35 %}
+        {% if gameweek > 1 %}
+            <a href="{{ path('app_journee_before', {'championnat': idChampionnat, 'gameweek': gameweek}) }}">avant</a>
+        {% endif %}
+        {% if gameweek < 34 %}
+            <a href="{{ path('app_journee_after', {'championnat': idChampionnat, 'gameweek': gameweek}) }}">après</a>
+        {% endif %}
+        <div class="journées">
+            <div class="react-match" data-id-championnat="{{ idChampionnat }}" data-id-gameweek="{{ gameweek }}"></div>
+        </div>
+    {% else %}
+        <p>Journée {{ gameweek }} ? Tu penses que ça existe ???? P'tit couillon va !</p>
+    {% endif %}
+
+
+{% endblock %}

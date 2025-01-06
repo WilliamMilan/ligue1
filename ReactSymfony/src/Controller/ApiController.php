@@ -19,19 +19,12 @@ class ApiController extends AbstractController
     #[Route('/api/{championnat}', name: 'app_api')]
     public function index(string $championnat): Response
     {
-        $teams = $this->leagueService->getTeams($championnat);
-        $journees = $this->leagueService->getCurrentJournee($championnat);
-        $gameWeekNumber = $journees['currentMatches'][0]['gameWeekNumber'];
-        $previousClassement = $this->leagueService->getPreviousMatchdayStandings($championnat, $gameWeekNumber-1);
-        $idChampionnat = $journees['currentMatches'][0]['championshipId'];
-
+       $gameWeekNumber = $this->leagueService->getCurrentJournee($championnat);
+        
         return $this->render('api/index.html.twig', [
             'controller_name' => 'ApiController',
-            'teams' => $teams,
-            'journees' => $journees,
-            'weekNumber' => $gameWeekNumber,
-            'previousClassement' => $previousClassement['standings'],
-            'idChampionnat' => $idChampionnat,
+            'gameweek' => $gameWeekNumber,
+            'idChampionnat' => $championnat,
         ]);
     }
 }

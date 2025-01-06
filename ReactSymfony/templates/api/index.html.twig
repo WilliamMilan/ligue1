@@ -12,7 +12,7 @@
         <a href="/api/13"><img src="https://ligue1.fr/images/Logo_europa_league.png" alt="Europa League"></a>
     </div>
 
-    <h1 class="titre">Classement de la Champions League (J{{ weekNumber }})</h1>
+    <h1 class="titre">Classement de la Champions League (J{{ gameweek }})</h1>
 
     <div id="app">
         <h2>Équipes</h2>
@@ -37,11 +37,7 @@
                     <p>Forme</p>
                 </div>
             </div>
-            <div id="clubs">
-                {% for team in teams.standings %}
-                    <div {{ react_component('Team', {'team': team, 'allTeams': teams, 'previous': previousClassement, 'idChampionnat': idChampionnat}) }}></div>
-                {% endfor %}
-            </div>
+            <div class="clubs" data-id-championnat="{{ idChampionnat }}" data-id-gameweek="{{ gameweek }}"></div>
         </div>
     </div>
 {% endblock %}
