@@ -19,10 +19,16 @@ class JourneeController extends AbstractController
     #[Route('/journee/{championnat}/{gameweek}', name: 'app_journee')]
     public function index(string $championnat, int $gameweek): Response
     {
+        $maxNumberWeek = $this->leagueService->getMaxNumberWeek($championnat);
+        if($championnat == 6){
+            $maxNumberWeek = 8;
+        }
+
         return $this->render('journee/journee.html.twig', [
             'controller_name' => 'JourneeController',
             'idChampionnat' => $championnat,
-            'gameweek' => $gameweek
+            'gameweek' => $gameweek,
+            'maxWeek' => $maxNumberWeek
         ]);
     }
 

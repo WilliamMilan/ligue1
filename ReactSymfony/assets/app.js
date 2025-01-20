@@ -32,3 +32,16 @@ Array.from(element2).forEach((element) => {
         </React.StrictMode>
     )
 })
+
+document.querySelector('.selected-option').addEventListener('click', function () {
+    const selectBox = document.querySelector('.custom-select');
+    selectBox.classList.toggle('open');
+});
+
+const options = document.querySelectorAll('.option');
+options.forEach(option => {
+    option.addEventListener('click', function () {
+        document.querySelector('.selected-option').textContent = this.textContent;
+        document.querySelector('.custom-select').classList.remove('open');
+    });
+});

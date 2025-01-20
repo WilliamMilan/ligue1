@@ -28,10 +28,11 @@ class Api
         return $data['currentMatches'][0]['gameWeekNumber'];
     }
 
-    public function getPreviousMatchdayStandings(int $championnat, int $matchday)
+    public function getMaxNumberWeek($championnat)
     {
-        $urli = "https://ma-api.ligue1.fr/championship-standings/" . $championnat . "/general?season=2024&firstGameWeekNumber=1&lastGameWeekNumber=" . $matchday;
+        $urli = "https://ma-api.ligue1.fr/championships-settings";
         $response = $this->client->get($urli);
-        return json_decode($response->getBody(), true);
+        $data = json_decode($response->getBody()->getContents(), true);
+        return $data['championships'][$championnat]['lastGameWeekNumber'];
     }
 }

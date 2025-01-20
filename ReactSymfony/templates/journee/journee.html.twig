@@ -1,32 +1,49 @@
 {% extends 'menu.html.twig' %}
 
-{% block title %} Hello ReactController!
+{% block title %}
+	Hello ReactController!
 {% endblock %}
 
 {% block body %}
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+	<link href="" rel="stylesheet"/>
 
-    <div class="different-championnats">
-        <a href="{{ path('app_journee_actual', {'championnat': 1})}}"><img src="https://ligue1.fr/images/Logo_Ligue_1.png" alt="Ligue 1"></a>
-        <a href="{{ path('app_journee_actual', {'championnat': 4})}}"><img src="https://ligue1.fr/images/Logo_Ligue_2.png" alt="Ligue 2"></a>
-        <a href="{{ path('app_journee_actual', {'championnat': 6})}}"><img src="https://ligue1.fr/images/Logo_champions_league.png" alt="Champions League"></a>
-        <a href="{{ path('app_journee_actual', {'championnat': 13})}}"><img src="https://ligue1.fr/images/Logo_europa_league.png" alt="Europa League"></a>
-    </div>
+	<div class="different-championnats">
+		<a href="{{ path('app_journee_actual', {'championnat': 1})}}"><img src="https://ligue1.fr/images/Logo_Ligue_1.png" alt="Ligue 1"></a>
+		<a href="{{ path('app_journee_actual', {'championnat': 4})}}"><img src="https://ligue1.fr/images/Logo_Ligue_2.png" alt="Ligue 2"></a>
+		<a href="{{ path('app_journee_actual', {'championnat': 6})}}"><img src="https://ligue1.fr/images/Logo_champions_league.png" alt="Champions League"></a>
+		<a href="{{ path('app_journee_actual', {'championnat': 13})}}"><img src="https://ligue1.fr/images/Logo_europa_league.png" alt="Europa League"></a>
+	</div>
 
-    (J{{ gameweek }})
+	{% if gameweek > 0 and gameweek < maxWeek + 1 %}
+		{% if gameweek > 1 %}
+			<a href="{{ path('app_journee_before', {'championnat': idChampionnat, 'gameweek': gameweek}) }}">
+				<i class="fa-solid fa-arrow-left"></i>
+			</a>
+		{% endif %}
 
-    {% if gameweek > 0 and gameweek < 35 %}
-        {% if gameweek > 1 %}
-            <a href="{{ path('app_journee_before', {'championnat': idChampionnat, 'gameweek': gameweek}) }}">avant</a>
-        {% endif %}
-        {% if gameweek < 34 %}
-            <a href="{{ path('app_journee_after', {'championnat': idChampionnat, 'gameweek': gameweek}) }}">après</a>
-        {% endif %}
-        <div class="journées">
-            <div class="react-match" data-id-championnat="{{ idChampionnat }}" data-id-gameweek="{{ gameweek }}"></div>
-        </div>
-    {% else %}
-        <p>Journée {{ gameweek }} ? Tu penses que ça existe ???? P'tit couillon va !</p>
-    {% endif %}
+		<div class="custom-select">
+			<div class="selected-option">Journee {{gameweek}} <i class="fa-solid fa-arrow-down"></i></div>
+			<ul class="options-list">
+				{% for week in 1..maxWeek %}
+					<a href="{{ path('app_journee', {'championnat': idChampionnat, 'gameweek': week}) }}"><li class="option">Journee {{week}}</li></a>
+				{% endfor %}
+			</ul>
+		</div>
+
+		{% if gameweek < maxWeek %}
+			<a href="{{ path('app_journee_after', {'championnat': idChampionnat, 'gameweek': gameweek}) }}">
+				<i class="fa-solid fa-arrow-right"></i>
+			</a>
+		{% endif %}
+		<div class="journées">
+			<div class="react-match" data-id-championnat="{{ idChampionnat }}" data-id-gameweek="{{ gameweek }}"></div>
+		</div>
+	{% else %}
+		<p>Journée
+			{{ gameweek }}
+			? Tu penses que ça existe ???? P'tit couillon va !</p>
+	{% endif %}
 
 
 {% endblock %}

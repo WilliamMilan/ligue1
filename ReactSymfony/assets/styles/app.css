@@ -1,8 +1,8 @@
-#clubs{
+#clubs {
     width: 50rem;
 }
 
-#barTop{
+#barTop {
     display: flex;
     padding: 0.2rem;
     border-bottom: 1px solid #ddd;
@@ -30,7 +30,7 @@
     background-color: grey;
 }
 
-.top-bar{
+.top-bar {
     font-size: 12px;
     font-weight: bold;
     display: flex;
@@ -55,22 +55,27 @@
     border-bottom: 1px solid #ddd;
 }
 
-.border-bottom-team-blue{
+.border-bottom-team-blue {
     border-left: 3px solid blue;
 }
-.border-bottom-team-orangered{
+
+.border-bottom-team-orangered {
     border-left: 3px solid orangered;
 }
-.border-bottom-team-green{
+
+.border-bottom-team-green {
     border-left: 3px solid green;
 }
-.border-bottom-team-cyan{
+
+.border-bottom-team-cyan {
     border-left: 3px solid cyan;
 }
-.border-bottom-team-orange{
+
+.border-bottom-team-orange {
     border-left: 3px solid orange;
 }
-.border-bottom-team-red{
+
+.border-bottom-team-red {
     border-left: 3px solid red;
 }
 
@@ -122,15 +127,15 @@
     position: relative
 }
 
-.red{
+.red {
     background-color: red;
 }
 
-.grey{
+.grey {
     background-color: grey;
 }
 
-.green{
+.green {
     background-color: green;
 }
 
@@ -143,7 +148,7 @@
     white-space: nowrap;
 }
 
-.result-letter:hover .latch{
+.result-letter:hover .latch {
     display: block;
 }
 
@@ -186,7 +191,7 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.evolution{
+.evolution {
     height: 100%;
     width: 4%;
     display: flex;
@@ -196,7 +201,7 @@
     gap: 0.1rem;
 }
 
-.plus{
+.plus {
     width: 0;
     height: 0;
     border-left: 0.5rem solid transparent;
@@ -204,7 +209,7 @@
     border-bottom: 0.5rem solid green;
 }
 
-.moins{
+.moins {
     width: 0;
     height: 0;
     border-left: 0.5rem solid transparent;
@@ -212,10 +217,58 @@
     border-top: 0.5rem solid red;
 }
 
-.places_prises{
+.places_prises {
     font-size: 12px;
 }
 
-.titre{
+.titre {
     text-align: center;
+}
+
+.custom-select {
+    position: relative;
+    width: 200px;
+    font-family: Arial, sans-serif;
+}
+
+
+
+
+.selected-option {
+    background-color: #f0f0f0;
+    padding: 10px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+}
+
+.options-list {
+    display: none;
+    position: absolute;
+    top: 40px;
+    /* Just below the selected option */
+    left: 0;
+    width: 100%;
+    max-height: 200px;
+    /* Limite la hauteur de la liste */
+    overflow-y: auto;
+    /* Ajoute une barre de défilement */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.option {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.option:hover {
+    background-color: #f0f0f0;
+}
+
+.custom-select.open .options-list {
+    display: block;
 }
