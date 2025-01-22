@@ -153,42 +153,134 @@
 }
 
 .journées {
+    width: 100%;
+}
+
+.matchs {
     display: flex;
     flex-wrap: wrap;
-    gap: 4.3rem;
-    padding: 20px 0;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+.match {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 10px;
+    width: 27rem;
+    background-color: rgb(225, 219, 219);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.matches {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+.match-list {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.date {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.date::before,
+.date::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: black;
+    margin: 0 10px;
+}
+
+.match-list-content {
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    /* justify-content: center; */
+    align-content: flex-start;
+    gap: 40px;
+    margin-left: 55px;
 }
 
 .match {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 10px;
-    border-radius: 10px;
-    background-color: #c0bcbc;
+    justify-content: space-between;
+    padding: 23px;
+    width: 25rem;
+    background-color: rgb(225, 219, 219);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    gap: 0.5rem;
 }
 
-.match img.logo {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
+.name-team {
+    flex: 1;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.match.reed {
-    color: red;
+.image-team {
+    flex: 0 0 auto;
+    width: 40px;
+    height: 40px;
 }
 
-.match .logo {
-    display: inline-block;
-    width: 30px;
+.image-team .logo {
+    width: 100%;
     height: auto;
+    object-fit: contain;
 }
 
-.match:hover {
-    background-color: #f0f0f0;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+.score-team {
+    position: relative;
+    flex: 0 0 60px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    background-color: rgb(179, 174, 174);
+    padding: 5px;
+}
+
+.score-team.reed {
+    color: red;
+    border: 2px solid red;
+}
+
+.match-time {
+    position: absolute;
+    bottom: -19px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.8rem;
+    width: 100%;
 }
 
 .evolution {
@@ -225,39 +317,65 @@
     text-align: center;
 }
 
+
+.top-selected-option {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+}
+
+.top-selected-option-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: auto;
+    min-width: max-content;
+    background-color: rgb(225, 219, 219);
+    padding: 10px;
+}
+
+.arrows {
+    background-color: rgb(179, 174, 174);
+    padding: 10px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.arrows:visited {
+    color: inherit;
+}
+
 .custom-select {
     position: relative;
-    width: 200px;
+    display: flex;
+    justify-content: center;
+    width: 150px;
     font-family: Arial, sans-serif;
 }
 
-
-
-
 .selected-option {
-    background-color: #f0f0f0;
+    display: flex;
     padding: 10px;
     cursor: pointer;
-    border: 1px solid #ccc;
+    gap: 1rem;
 }
 
 .options-list {
     display: none;
     position: absolute;
     top: 40px;
-    /* Just below the selected option */
     left: 0;
     width: 100%;
     max-height: 200px;
-    /* Limite la hauteur de la liste */
     overflow-y: auto;
-    /* Ajoute une barre de défilement */
     background-color: #fff;
     border: 1px solid #ccc;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     margin: 0;
     padding: 0;
     list-style: none;
+    z-index: 99;
 }
 
 .option {

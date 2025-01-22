@@ -155,9 +155,9 @@ export default function Team(props) {
                             <p className="wins text-gray-500">{club["wins"]}</p>
                             <p className="draws text-gray-500">{club["draws"]}</p>
                             <p className="losses text-gray-500">{club["losses"]}</p>
-                            <p className="goal-difference text-gray-500">{club["goalsDifference"]}</p>
                             <p className="goal-for text-gray-500">{club["forGoals"]}</p>
                             <p className="goal-against text-gray-500">{club["againstGoals"]}</p>
+                            <p className="goal-difference text-gray-500">{club["goalsDifference"]}</p>
                         </div>
                         <div className="recent-results">
                             {club["seasonResults"].slice(-5).map((result, index) => (
