@@ -72,7 +72,9 @@ Encore
     //.autoProvidejQuery()
     .enablePostCssLoader()
     .enableStimulusBridge('./assets/controllers.json')
-    
+    .configureDevServerOptions(options => {
+        options.client = { overlay: false,}
+    })
 ;
 
 module.exports = Encore.getWebpackConfig();

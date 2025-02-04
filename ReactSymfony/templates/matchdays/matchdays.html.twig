@@ -26,18 +26,26 @@
 
 				<div class="custom-select">
 					<div class="selected-option">
-						<span>Journee
-							{{gameweek}}</span>
+						<span>{{ selectedLabel }}</span>
 						<i class="fa-solid fa-chevron-down"></i>
 					</div>
-					<ul class="options-list">
+					<div class="options-list">
+						<div class="option-content">
 						{% for week in 1..maxWeek %}
 							<a href="{{ path('app_journee', {'championnat': idChampionnat, 'gameweek': week}) }}">
-								<li class="option">Journee
-									{{week}}</li>
+								<div class="option">
+									<span>
+										{% if idChampionnat == 6 or idChampionnat == 13 %}
+											{{ phases[week] is defined ? phases[week] : 'Journée ' ~ week }}
+										{% else %}
+											Journée {{ week }}
+										{% endif %}
+									</span>
+								</div>
 							</a>
 						{% endfor %}
-					</ul>
+						</div>
+					</div>
 				</div>
 
 				{% if gameweek < maxWeek %}
@@ -47,9 +55,8 @@
 				{% endif %}
 			</div>
 		</div>
-		<div class="journées">
-			<div class="react-match" data-id-championnat="{{ idChampionnat }}" data-id-gameweek="{{ gameweek }}"></div>
-		</div>
+		<div class="react-match" data-id-championnat="{{ idChampionnat }}" data-id-gameweek="{{ gameweek }}"></div>
+		
 	{% else %}
 		<p>Journée
 			{{ gameweek }}

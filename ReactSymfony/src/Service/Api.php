@@ -35,4 +35,12 @@ class Api
         $data = json_decode($response->getBody()->getContents(), true);
         return $data['championships'][$championnat]['lastGameWeekNumber'];
     }
+
+    public function getChampionnatFromMatch($matchId)
+    {
+        $urli = "https://ma-api.ligue1.fr/championship-match/" . $matchId;
+        $response = $this->client->get($urli);
+        $data = json_decode($response->getBody()->getContents(), true);
+        return $data["championshipId"];
+    }
 }

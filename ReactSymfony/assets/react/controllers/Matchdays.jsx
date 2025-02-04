@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import React from 'react';
 
 export default function Matches(props) {
 
+    const navigate = useNavigate();
     const [matches, setMatches] = useState([])
     const [loading, setLoading] = useState(true);
 
@@ -12,7 +14,12 @@ export default function Matches(props) {
             try {
                 const response = await fetch("https://ma-api.ligue1.fr/championship-matches/championship/" + props.idChampionnat + "/game-week/" + props.gameweek);
                 const data = await response.json();
-                setMatches(data);
+                setMatches(prevMatches => {
+                    if (JSON.stringify(prevMatches) !== JSON.stringify(data)) {
+                        return data;
+                    }
+                    return prevMatches;
+                });
             } catch (error) {
                 console.error("Failed to fetch matches:", error);
             } finally {
@@ -24,7 +31,7 @@ export default function Matches(props) {
         intervalId = setInterval(fetchMatches, 30000);
 
         return () => clearInterval(intervalId);
-    }, [props.idChampionnat]);
+    }, [props.idChampionnat, props.gameweek]);
 
     function displayScore(match) {
         const date = new Date(match.date)
@@ -33,6 +40,11 @@ export default function Matches(props) {
 
         if (match.period === "preMatch" || match.period === "preMatchWithPlayers") {
             return <span>{hours}h{minutes}</span>
+        } else if (match.period === "halfTime"){
+            return <div>
+                <span>{match.home.score} - {match.away.score}</span>
+                <span className="match-time">MT</span>
+            </div>
         } else if (match.period !== "fullTime") {
             return <div>
                 <span>{match.home.score} - {match.away.score}</span>
@@ -44,10 +56,8 @@ export default function Matches(props) {
     }
 
     function displayMatch(match) {
-        const date = new Date(match.date);
-        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        const dayOfWeek = daysOfWeek[date.getDay()];
-        return (
+        let div = <>
+        <a href={`/match/detail/${match.matchId}`} className="a-match">
             <div key={match.matchId} className="match">
                 <div className="name-team">{match.home.clubIdentity.shortName}</div>
                 <div className="image-team"><img
@@ -60,12 +70,11 @@ export default function Matches(props) {
                     src={match.away.clubIdentity.assets.logo.small}
                 /></div>
                 <div className="name-team">{match.away.clubIdentity.shortName}</div>
-            </div>
-        )
-    }
-
-    if (loading) {
-        return <div>Loading ...</div>;
+        </div>
+        </a>
+    </>
+        ;
+        return div
     }
 
     function groupMatchesByDate(matches) {
@@ -89,6 +98,10 @@ export default function Matches(props) {
         const dayDate = datee.getDate()
         const year = datee.getFullYear()
         return <span>{dayName} {dayDate} {month} {year}</span>
+    }
+
+    if (loading && matches.length === 0) {
+        return null; // Ne rien afficher au début
     }
 
     const groupedMatches = groupMatchesByDate(matches["matches"]);

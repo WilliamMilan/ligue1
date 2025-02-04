@@ -4,8 +4,10 @@ import './styles/app.css';
 import './styles/menu.css';
 import React from "react";
 import ReactDOM from "react-dom";
-import Matches from "./react/controllers/Matches.jsx";
+import Matches from "./react/controllers/Matchdays.jsx";
 import Team from "./react/controllers/Team.jsx";
+import DetailMatch from "./react/controllers/DetailMatch.jsx";
+import { BrowserRouter } from "react-router-dom";
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
 
@@ -16,9 +18,11 @@ Array.from(elements).forEach((element) => {
     const idChampionnat = element.getAttribute('data-id-championnat');
     const gameweek = element.getAttribute('data-id-gameweek');
     ReactDOM.createRoot(element).render(
-        <React.StrictMode>
-            <Matches idChampionnat={idChampionnat} gameweek={gameweek} />
-        </React.StrictMode>
+       // <React.StrictMode>
+            <BrowserRouter>
+                <Matches idChampionnat={idChampionnat} gameweek={gameweek} />
+            </BrowserRouter>
+        //</React.StrictMode>
     );
 });
 
@@ -27,9 +31,21 @@ Array.from(element2).forEach((element) => {
     const idChampionnat = element.getAttribute('data-id-championnat');
     const gameweek = element.getAttribute('data-id-gameweek');
     ReactDOM.createRoot(element).render(
-        <React.StrictMode>
+      //  <React.StrictMode>
             <Team idChampionnat={idChampionnat} gameweek={gameweek} />
-        </React.StrictMode>
+        //</React.StrictMode>
+    )
+})
+
+const element3 = document.getElementsByClassName('react-match-detail');
+Array.from(element3).forEach((element) => {
+    const idChampionnat = element.getAttribute('data-id-championnat');
+    const gameweek = element.getAttribute('data-id-gameweek');
+    const idMatch = element.getAttribute('data-id-match');
+    ReactDOM.createRoot(element).render(
+      //  <React.StrictMode>
+            <DetailMatch idChampionnat={idChampionnat} gameweek={gameweek} idMatch={idMatch} />
+       // </React.StrictMode>
     )
 })
 

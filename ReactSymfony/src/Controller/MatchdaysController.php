@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Service\Api;
 
-class JourneeController extends AbstractController
+class MatchdaysController extends AbstractController
 {
     private $leagueService;
 
@@ -17,18 +17,33 @@ class JourneeController extends AbstractController
     }
 
     #[Route('/journee/{championnat}/{gameweek}', name: 'app_journee')]
-    public function index(string $championnat, int $gameweek): Response
+    public function index(string $championnat, string $gameweek): Response
     {
         $maxNumberWeek = $this->leagueService->getMaxNumberWeek($championnat);
-        if($championnat == 6){
-            $maxNumberWeek = 8;
-        }
+        
+        $phases = [
+            9 => "Barrage (aller)",
+            10 => 'Barrage (retour)',
+            11 => '8ème de finale (aller)',
+            12 => '8ème de finale (retour)',
+            13 => 'Quarts de finale (aller)',
+            14 => 'Quarts de finale (retour)',
+            15 => 'Demi finale (aller)',
+            16 => 'Demi finale (retour)',
+            17 => 'Finale'
+        ];
+        
+        $selectedLabel = (($championnat == 6 || $championnat == 13) && array_key_exists($gameweek, $phases))
+                    ? $phases[$gameweek]
+                    : "Journée $gameweek";
 
-        return $this->render('journee/journee.html.twig', [
-            'controller_name' => 'JourneeController',
+        return $this->render('matchdays/matchdays.html.twig', [
+            'controller_name' => 'MatchdaysController',
             'idChampionnat' => $championnat,
             'gameweek' => $gameweek,
-            'maxWeek' => $maxNumberWeek
+            'maxWeek' => $maxNumberWeek,
+            'phases' => $phases,
+            'selectedLabel' => $selectedLabel
         ]);
     }
 
