@@ -2,6 +2,7 @@ import { registerReactControllerComponents } from '@symfony/ux-react';
 import './bootstrap.js';
 import './styles/app.css';
 import './styles/menu.css';
+import './styles/match-detail.css';
 import React from "react";
 import ReactDOM from "react-dom";
 import Matches from "./react/controllers/Matchdays.jsx";

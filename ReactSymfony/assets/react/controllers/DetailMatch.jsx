@@ -11,6 +11,7 @@ export default function DetailMatch(props) {
     const [scorers, setScorers] = useState(new Map());
     
     useEffect(() => {
+        let intervalId;
         const fetchMatch = async () => {
             try {
                 const response = await fetch("https://ma-api.ligue1.fr/championship-match/" + props.idMatch)
@@ -26,6 +27,9 @@ export default function DetailMatch(props) {
         }
    
         fetchMatch()
+        intervalId = setInterval(fetchMatch, 30000);
+
+        return () => clearInterval(intervalId);
     }, [props.idMatch])
     
     useEffect(() => {
@@ -66,60 +70,38 @@ export default function DetailMatch(props) {
     if (loading) {
         return <div>Loading ...</div>;
     }
-    function displayCards(){
-        let cardsHome = [0, 0]
-        let cardsAway = [0, 0]
+    
+    function displayCards(side){
+        let cardList = [0, 0]
         match.timeline.forEach((item) => {
             if (item.type === "yellowCard"){
-                if (item.side === "home"){
-                    cardsHome[0] += 1
-                }
-                else{
-                    cardsAway[0] += 1
+                if (item.side === side){
+                    cardList[0] += 1
                 }
             }
             else if (item.type === "redCard"){
-                if (item.side === "home"){
-                    cardsHome[1] += 1
-                }
-                else{
-                    cardsAway[1] += 1
+                if (item.side === side){
+                    cardList[1] += 1
                 }
             }
         });
-        console.log(cardsHome)
-        console.log(cardsAway)
 
         return (
             <div className="detail-cards">
-                <div className="cards-home">
-                    {cardsHome[0] > 0 && (
+                {cardList[0] > 0 && (
                         <>
-                            <span>{cardsHome[0]}</span>
-                            <div>jaune</div>
+                            <div className="yellow-card">
+                                {cardList[0]}
+                            </div>
                         </>
                     )}
-                    {cardsHome[1] > 0 && (
+                    {cardList[1] > 0 && (
                         <>
-                            <span>{cardsHome[1]}</span>
-                            <div>rouge</div>
+                            <div className="red-card">
+                                {cardList[1]}
+                            </div>
                         </>
                     )}
-                </div>
-                <div className="cards-away">
-                    {cardsAway[0] > 0 && (
-                        <>
-                            <span>{cardsAway[0]}</span>
-                            <div>jaune</div>
-                        </>
-                    )}
-                    {cardsAway[1] > 0 && (
-                        <>
-                            <span>{cardsAway[1]}</span>
-                            <div>rouge</div>
-                        </>
-                    )}
-                </div>
             </div>
         );
     }
@@ -134,15 +116,49 @@ export default function DetailMatch(props) {
         } else if (match.period === "halfTime"){
             return (
                 <>
-                    <span>MT</span>
-                    <span>{match.home.score} - {match.away.score}</span>
+                    <span className="statut-match">MT</span>
+                    <div className="infos">
+                        <div className="infos-home">
+                            <span className="score-match-span">{match.home.score}</span>
+                            {displayCards("home")}
+                        </div>
+                        <div className="infos-away">
+                            <span className="score-match-span">{match.away.score}</span>
+                            {displayCards("away")}
+                        </div>
+                    </div>
                 </>
             )
         } else if (match.period === "fullTime") {
             return (
                 <>
-                    <span>Terminé</span>
-                    <span>{match.home.score} - {match.away.score}</span>
+                    <span className="statut-match-span">Terminé</span>
+                    <div className="infos">
+                        <div className="infos-home">
+                            <span className="score-match-span">{match.home.score}</span>
+                            {displayCards("home")}
+                        </div>
+                        <div className="infos-away">
+                            <span className="score-match-span">{match.away.score}</span>
+                            {displayCards("away")}
+                        </div>
+                    </div>
+                </>
+            )
+        } else if (match.period === "secondHalf" || match.period === "firstHalf") {
+            return (
+                <>
+                    <span className="statut-match-span">{match.matchTime}</span>
+                    <div className="infos">
+                        <div className="infos-home">
+                            <span className="score-match-span">{match.home.score}</span>
+                            {displayCards("home")}
+                        </div>
+                        <div className="infos-away">
+                            <span className="score-match-span">{match.away.score}</span>
+                            {displayCards("away")}
+                        </div>
+                    </div>
                 </>
             )
         } else {
@@ -150,7 +166,7 @@ export default function DetailMatch(props) {
         }
     }
     
-    function tomate(scorerList, playerList, playerCsc){
+    function tomate(scorerList, playerList, playerCsc, side){
         return(
             <ul>
                 {Array.from(scorers).map(([player, goals]) => {
@@ -171,11 +187,19 @@ export default function DetailMatch(props) {
                             .map(goal => goal[0] + (goal[1] === "goal" ? "" : (goal[1] === "penalty" ? " PEN" : (goal[1] === "own" ? " CSC" : ""))))
                             .join(', ')})`;
                         
-                        return (
-                            <li key={player}>
-                                {res} {go}
-                            </li>
-                        )
+                        if (side === "home"){
+                            return (
+                                <li key={player}>
+                                    <i className="fa-regular fa-futbol"></i> {res} {go}
+                                </li>
+                            )
+                        } else{
+                            return (
+                                <li key={player}>
+                                    {res} {go} <i className="fa-regular fa-futbol"></i>
+                                </li>
+                            )
+                        }
                     } 
                 })}
             </ul>
@@ -188,23 +212,29 @@ export default function DetailMatch(props) {
                     <div className="detail-score">
                         <div className="match-teams">
                             <img src={match.home.clubIdentity.assets.logo.small} alt="players"/>
-                            <span>{match.home.clubIdentity.shortName} ( {match.home.clubStanding.rank} )</span>
+                            <span>
+                                {match.home.clubIdentity.shortName}
+                                {match.round && match.round.type !== "playoff" && ` (${match.home.clubStanding.rank})`}
+                            </span>
                         </div>
                         <div className="match-score">
                             {displayMatchTimeScore()}
-                            {displayCards()}
                         </div>
                         <div className="match-teams">
                             <img src={match.away.clubIdentity.assets.logo.small} alt="players"/>
-                            <span>{match.away.clubIdentity.shortName} ( {match.away.clubStanding.rank} )</span>
+                            <span>
+                                {match.away.clubIdentity.shortName}
+                                {match.round && match.round.type !== "playoff" && ` (${match.away.clubStanding.rank})`}
+                            </span>
                         </div>
                     </div>
+                    <div className="line"></div>
                     <div className="scorers">
                         <div className="scorers-home">
-                            {tomate(match.home.goals, playersHome, playersAway)}
+                            {tomate(match.home.goals, playersHome, playersAway, "home")}
                         </div>
                         <div className="scorers-away">
-                            {tomate(match.away.goals, playersAway, playersHome)}
+                            {tomate(match.away.goals, playersAway, playersHome, "away")}
                         </div>
                     </div>
             </div>

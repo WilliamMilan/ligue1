@@ -1,3 +1,16 @@
+*{
+    padding: 0;
+    margin: 0;
+    /*background-color: black;
+    color: white;*/
+}
+
+body{
+    background-image: url('../images/ucl-background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 #clubs {
     width: 50rem;
 }
